@@ -1,8 +1,6 @@
-
-
 import math
 import csv
-import pdb
+
 
 from math import radians, sin, cos, acos
 
@@ -41,13 +39,13 @@ class masterTrainer:
         masterTrainer.subject = subject
         masterTrainer.latitude = latitude
         masterTrainer.longitude = longitude
-        i = 1
-        j = 1
-        while (i < 2):
-            while (j < len(venue.venueGeoLat)):
-                masterTrainer.distanceFromVenues.append(masterTrainer.distanceCalculator(float(masterTrainer.latitude),float(masterTrainer.longitude),float(venue.venueGeoLat[j]),float(venue.venueGeoLon[j])))
-                j = j + 1
-            i = i + 1
+        x = 1
+        y = 1
+        while (x < 2):
+            while (y < len(venue.venueGeoLat)):
+                masterTrainer.distanceFromVenues.append(masterTrainer.distanceCalculator(float(masterTrainer.latitude),float(masterTrainer.longitude),float(venue.venueGeoLat[y]),float(venue.venueGeoLon[y])))
+                y = y + 1
+            x = x + 1
             
         MAX = 100000
         firstmin = MAX
@@ -61,20 +59,21 @@ class masterTrainer:
                 thirdmin = secmin
                 secmin = firstmin
                 firstmin = masterTrainer.distanceFromVenues[i]
-                k = i
+                k = i+1
 
             elif masterTrainer.distanceFromVenues[i] < secmin:
                 thirdmin = secmin
                 secmin = masterTrainer.distanceFromVenues[i]
-                l = i
+            
+                l = i+1
 
             elif masterTrainer.distanceFromVenues[i] < thirdmin:
                 thirdmin = masterTrainer.distanceFromVenues[i]
-                m = i
-        masterTrainer.nearestVenues.append(venue.venueName[k+1])
-        masterTrainer.nearestVenues.append(venue.venueName[l+1])
-        masterTrainer.nearestVenues.append(venue.venueName[m+1])
-
+                m = i+1
+        masterTrainer.nearestVenues.append(venue.venueName[k])
+        masterTrainer.nearestVenues.append(venue.venueName[l])
+        masterTrainer.nearestVenues.append(venue.venueName[m])
+               
 
     def distanceCalculator(latitude1,longitude1,latitude2,longitude2):
         slat = radians(latitude1)
@@ -86,11 +85,11 @@ class masterTrainer:
 
     
 
-name = list()
-location = list()
-subject = list()
-latitude = list()
-longitude = list()
+name = []
+location = []
+subject = []
+latitude =[]
+longitude = []
 with open('mtData.csv') as csvDataFile:
     csvReader = csv.reader(csvDataFile)
     for row in csvReader:
@@ -100,9 +99,9 @@ with open('mtData.csv') as csvDataFile:
         latitude.append(row[2])
         longitude.append(row[3])
 
-masters = list()
-i = 0
-while (i<len(name)):
-    mt[i] = masterTrainer(name[i],location[i],subject[i],latitude[i],longitude[i])
-    masters.append(mt)
-    i = i+1
+print(longitude)
+mt1 = masterTrainer(name[0],location[0],subject[0],latitude[0],longitude[0],)
+print(mt1.nearestVenues)
+mt2 = masterTrainer(name[1],location[1],subject[1],latitude[1],longitude[1],)
+#mt2 = masterTrainer(name[2],location[2],subject[2],latitude[2],longitude[2])
+#mt[1] = masterTrainer(name[1],location[1],subject[1],latitude[1],longitude[1])
